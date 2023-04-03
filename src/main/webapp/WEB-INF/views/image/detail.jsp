@@ -16,6 +16,14 @@
 					<div>${detailDto.name}</div>
 				</div>
 
+				<form action="/image/${imageId}/delete" method="post">
+                    <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+                    <input type="hidden" name="confirm" value="yes"/>
+                    <div>
+                        <button type="submit">삭제</button>
+                    </div>
+                </form>
+
 				<div class="sl__item__img">
 					<img src="/upload/${detailDto.postImage}" />
 				</div>

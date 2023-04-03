@@ -1,8 +1,10 @@
 package com.together.service;
 
 import com.together.config.auth.PrincipalDetails;
+import com.together.domain.comment.CommentRepository;
 import com.together.domain.image.Image;
 import com.together.domain.image.ImageRepository;
+import com.together.domain.likes.LikesRepository;
 import com.together.web.dto.ImageDetailDto;
 import com.together.web.dto.ImageUploadDto;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,9 @@ import java.util.UUID;
 public class ImageService {
 
     private final ImageRepository imageRepository;
+    private final LikesRepository likesRepository;
+
+    private final CommentRepository commentRepository;
 
     @Transactional(readOnly = true)
     public List<Image> 인기사진() {
@@ -75,5 +80,10 @@ public class ImageService {
         ImageDetailDto imageDetailDto = new ImageDetailDto(image);
 
         return imageDetailDto;
+    }
+
+    @Transactional
+    public void deleteImage(int imageId) {
+        imageRepository.deleteById(imageId);
     }
 }

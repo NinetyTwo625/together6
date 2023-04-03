@@ -22,4 +22,6 @@ public interface ImageRepository extends JpaRepository<Image, Integer> {
             + "(SELECT EXISTS (SELECT id FROM likes WHERE userId = :principalId and imageId = :imageId))likeState\r\n"
             + "FROM image WHERE id = :imageId", nativeQuery = true)
     Image imageDetail(@Param("imageId") int imageId, @Param("principalId") int principalId);
+
+    void deleteById(int imageId);
 }
