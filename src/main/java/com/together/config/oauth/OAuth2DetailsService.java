@@ -16,26 +16,38 @@ import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
-public class OAuth2DetailsService extends DefaultOAuth2UserService{
+public class OAuth2DetailsService extends DefaultOAuth2UserService {
 
     private final UserRepository userRepository;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-        //System.out.println("OAuth2 서비스 탐");
-        OAuth2User oauth2User = super.loadUser(userRequest);
-        //System.out.println(oauth2User.getAttributes());
+        System.out.println("token : " + userRequest.getAccessToken().getTokenValue());
+        OAuth2User oAuth2User = super.loadUser(userRequest);
+        return processOAuth2User(userRequest, oAuth2User);
+    }
 
-        Map<String, Object> userInfo = oauth2User.getAttributes();
+    private OAuth2User processOAuth2User(OAuth2UserRequest userRequest, OAuth2User oauth2User) {
 
-        String username = "facebook_"+(String) userInfo.get("id");
+        OAuth2UserInfo oAuth2UserInfo = null;
+
+        if (userRequest.getClientRegistration().getClientName().equals("Google")) {
+            oAuth2UserInfo = new GoogleInfo(oauth2User.getAttributes());
+        } else if (userRequest.getClientRegistration().getClientName().equals("Facebook")) {
+            oAuth2UserInfo = new FacebookInfo(oauth2User.getAttributes());
+        }
+
+        System.out.println("============= Registration ID ================");
+        System.out.println(userRequest.getClientRegistration().getRegistrationId());
+
+        String username = oAuth2UserInfo.getUsername();
         String password = new BCryptPasswordEncoder().encode(UUID.randomUUID().toString());
-        String email = (String) userInfo.get("email");
-        String name = (String) userInfo.get("name");
+        String email = oAuth2UserInfo.getEmail();
+        String name = oAuth2UserInfo.getName();
 
         User userEntity = userRepository.findByUsername(username);
 
-        if(userEntity == null) { // 페이스북 최초 로그인
+        if (userEntity == null) {
             User user = User.builder()
                     .username(username)
                     .password(password)
@@ -44,10 +56,14 @@ public class OAuth2DetailsService extends DefaultOAuth2UserService{
                     .role("ROLE_USER")
                     .build();
 
-            return new PrincipalDetails(userRepository.save(user), oauth2User.getAttributes());
-        }else { // 페이스북으로 이미 회원가입이 되어 있다는 뜻
+            userEntity = userRepository.save(user);
+
+
+
+            return new PrincipalDetails(userEntity, oauth2User.getAttributes());
+        } else {
             return new PrincipalDetails(userEntity, oauth2User.getAttributes());
         }
-
     }
+
 }

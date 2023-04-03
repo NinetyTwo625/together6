@@ -1,5 +1,5 @@
 server:
-  port: 8077
+  port: 80
   servlet:
     context-path: /
     encoding:
@@ -40,12 +40,25 @@ spring:
       client:
         registration:
           facebook:
-            client-id: 227381696489053
-            client-secret: 49d590889b94af25fcea3784f39e8046
+            client-id: 6380162208682703
+            client-secret: 491b79ed5afcd0c8ef2dfe649a120b22
             scope:
               - public_profile
               - email
 
+          google:
+            client-id: 462304039401-1gicoprc4b3h7qv4s20cne8pbbhkm31a.apps.googleusercontent.com
+            client-secret: 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
+            scope:
+              - email
+              - profile
 
 file:
-  path: C:/TeamTogether/upload/
+  path: C:/together/springbootwork/upload/
+
+
+  server:
+    servlet:
+      jsp:
+        init-parameters:
+          development: true

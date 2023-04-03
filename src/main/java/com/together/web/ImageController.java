@@ -13,6 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -54,5 +56,11 @@ public class ImageController {
         ImageDetailDto imageDetailDto = imageService.detailImage(imageId, principalDetails.getId());
         model.addAttribute("detailDto", imageDetailDto);
         return "image/detail";
+    }
+
+    @PostMapping("image/{imageId}/delete") //게시물삭제
+    public String deleteImage(@PathVariable int imageId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        imageService.deleteImage(imageId);
+        return "redirect:/user/" + principalDetails.getUser().getId();
     }
 }

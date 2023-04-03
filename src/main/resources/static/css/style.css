@@ -131,6 +131,17 @@ button {
   padding: 0 40px;
   margin-top: 15px;
 }
+
+.login__google {
+    padding: 0 40px;
+    margin-top: 5px;
+}
+
+.login__kakao {
+    padding: 0 40px;
+    margin-top: 5px;
+}
+
 /*페이스북 로그인 버튼*/
 .login__facebook button {
   background-color: #fff;
@@ -140,10 +151,53 @@ button {
   font-weight: 600;
   font-size: 15px;
 }
-/*페이스북 로그인 색깔*/
+/*페이스북 로그인 색깔
 .login__facebook button i,
 span {
   color: #385185;
+}*/
+
+.login__google button {
+    background-color: #c42727;
+    color: #fff;
+    width: 100%;
+    height: 30px;
+    border: 0;
+    font-weight: 600;
+    font-size: 15px;
+    border-radius: 6px;
+    padding-top: 2px;
+}
+
+.login__google button:hover {
+    background-color: #fff;
+    color: #c42727;
+    border: 1px solid #c42727;
+}
+
+.login__kakao button {
+    background-color: #FEE500;
+    color: #fff;
+    width: 100%;
+    height: 30px;
+    border: 0;
+    font-weight: 600;
+    font-size: 15px;
+    border-radius: 6px;
+    padding-top: 2px;
+}
+
+.login__kakao button:hover {
+    background-color: #fff;
+    color: #FEE500;
+    border: 1px solid #FEE500;
+}
+
+/* 아이콘 사이즈 */
+
+.OAuth2_icon_size {
+    width: 20px;
+    height: 20px;
 }
 
 /*가입페이지로 이동*/
